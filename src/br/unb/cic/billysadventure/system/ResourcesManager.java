@@ -6,8 +6,8 @@ import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
-import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.font.IFont;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -20,6 +20,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
+import android.graphics.Color;
 import br.unb.cic.billysadventure.activity.GameActivity;
 
 public class ResourcesManager {
@@ -36,7 +37,7 @@ public class ResourcesManager {
     public ITextureRegion options_region;
     private BuildableBitmapTextureAtlas menuTextureAtlas;
 	private Music music;
-	public Font font;
+	public IFont font;
 	public BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion platform1_region;
 	public ITextureRegion platform2_region;
@@ -47,7 +48,7 @@ public class ResourcesManager {
     {
         loadMenuGraphics();
         loadMenuAudio();
-        //loadMenuFonts();
+        loadMenuFonts();
     }
     
     public void unloadMenuTextures()
@@ -103,10 +104,6 @@ public class ResourcesManager {
     public void stopMenuAudio(){
     	this.music.stop();
     }
-    
-    public void setAudioVolume(float volume){
-    	this.music.setVolume(volume);
-    }
 
     private void loadGameGraphics(){
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
@@ -132,12 +129,11 @@ public class ResourcesManager {
         
     }
     
-    @SuppressWarnings("unused")
 	private void loadMenuFonts(){
-        FontFactory.setAssetBasePath("font/");
-        final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-        font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 50, true, android.graphics.Color.WHITE, 2, android.graphics.Color.BLACK);
-        font.load();
+		FontFactory.setAssetBasePath("font/");
+	    final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+	    font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "arial.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
+	    font.load();
     }
     
     private void loadGameAudio()

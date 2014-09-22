@@ -7,8 +7,10 @@ import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
+
 import br.unb.cic.billysadventure.system.BaseScene;
 import br.unb.cic.billysadventure.system.ResourcesManager;
+import br.unb.cic.billysadventure.system.SceneManager;
 import br.unb.cic.billysadventure.system.SceneManager.SceneType;
 
 import org.andengine.engine.camera.Camera;
@@ -82,8 +84,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        switch(pMenuItem.getID())
 	        {
 	        case MENU_PLAY:
-	        	//SceneManager.getInstance().loadGameScene(engine);
-	        	//ResourcesManager.getInstance().stopMenuAudio();
+	        	SceneManager.getInstance().loadGameScene(engine);
+	        	ResourcesManager.getInstance().stopMenuAudio();
 	            return true;
 	        case MENU_OPTIONS:
 	            return true;
