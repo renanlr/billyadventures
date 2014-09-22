@@ -7,10 +7,8 @@ import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
-
 import br.unb.cic.billysadventure.system.BaseScene;
 import br.unb.cic.billysadventure.system.ResourcesManager;
-import br.unb.cic.billysadventure.system.SceneManager;
 import br.unb.cic.billysadventure.system.SceneManager.SceneType;
 
 import org.andengine.engine.camera.Camera;
@@ -34,8 +32,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    menuChildScene.buildAnimations();
 	    menuChildScene.setBackgroundEnabled(false);
 	    
-	    playMenuItem.setPosition(playMenuItem.getX(), playMenuItem.getY() + 10);
-	    optionsMenuItem.setPosition(optionsMenuItem.getX(), optionsMenuItem.getY() + 60);
+	    playMenuItem.setPosition(playMenuItem.getX(), playMenuItem.getY() - 50 );
+	    optionsMenuItem.setPosition(optionsMenuItem.getX(), optionsMenuItem.getY() - 80);
 	    
 	    menuChildScene.setOnMenuItemClickListener(this);
 	    
@@ -45,7 +43,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	
 	private void createBackground()
 	{
-	    attachChild(new Sprite(0, 0, resourcesManager.menu_background_region, vbom)
+	    attachChild(new Sprite(400, 240, resourcesManager.menu_background_region, vbom)
 	    {
 	        @Override
 	        protected void preDraw(GLState pGLState, Camera pCamera) 
@@ -61,7 +59,6 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		createBackground();
 	    createMenuChildScene();
 	    ResourcesManager.getInstance().playMenuAudio();
-	    ResourcesManager.getInstance().setAudioVolume(0.4f);
 	}
 
 	@Override
@@ -85,8 +82,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        switch(pMenuItem.getID())
 	        {
 	        case MENU_PLAY:
-	        	SceneManager.getInstance().loadGameScene(engine);
-	        	ResourcesManager.getInstance().stopMenuAudio();
+	        	//SceneManager.getInstance().loadGameScene(engine);
+	        	//ResourcesManager.getInstance().stopMenuAudio();
 	            return true;
 	        case MENU_OPTIONS:
 	            return true;
