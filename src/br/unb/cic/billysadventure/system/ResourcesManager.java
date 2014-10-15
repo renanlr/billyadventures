@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.Engine;
-import org.andengine.engine.camera.Camera;
+import org.andengine.engine.camera.BoundCamera;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.font.IFont;
 import org.andengine.opengl.texture.ITexture;
@@ -17,6 +17,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
@@ -28,7 +29,7 @@ public class ResourcesManager {
     private static final ResourcesManager INSTANCE = new ResourcesManager();
     public Engine engine;
     public GameActivity activity;
-    public Camera camera;
+    public BoundCamera camera;
     public VertexBufferObjectManager vbom;
     public ITextureRegion splash_region;
     private BitmapTextureAtlas splashTextureAtlas;
@@ -43,6 +44,7 @@ public class ResourcesManager {
 	public ITextureRegion platform2_region;
 	public ITextureRegion platform3_region;
 	public ITextureRegion coin_region;
+	public ITiledTextureRegion player_region;
     
     public void loadMenuResources()
     {
@@ -105,12 +107,16 @@ public class ResourcesManager {
     	this.music.stop();
     }
 
-    private void loadGameGraphics(){
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
+    private void loadGameGraphics()
+    {
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
         gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
         
-        platform1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform_1.png");
+        platform1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform1.png");
+        platform2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform2.png");
+        platform3_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform3.png");
         coin_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "coin.png");
+        player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "player.png", 3, 1);
        
         try 
         {
@@ -121,7 +127,6 @@ public class ResourcesManager {
         {
             Debug.e(e);
         }
-        
     }
     
     private void loadGameFonts()
@@ -153,7 +158,7 @@ public class ResourcesManager {
     	splash_region = null;
     }
     
-    public static void prepareManager(Engine engine, GameActivity activity, Camera camera, VertexBufferObjectManager vbom)
+    public static void prepareManager(Engine engine, GameActivity activity, BoundCamera camera, VertexBufferObjectManager vbom)
     {
         getInstance().engine = engine;
         getInstance().activity = activity;
