@@ -34,8 +34,9 @@ public class ResourcesManager {
     public ITextureRegion splash_region;
     private BitmapTextureAtlas splashTextureAtlas;
     public ITextureRegion menu_background_region;
-    public ITextureRegion play_region;
-    public ITextureRegion options_region;
+    public ITextureRegion jogar_region;
+    public ITextureRegion loja_region;
+    public ITextureRegion rank_region;
     private BuildableBitmapTextureAtlas menuTextureAtlas;
 	private Music music;
 	public IFont font;
@@ -72,11 +73,12 @@ public class ResourcesManager {
     
     private void loadMenuGraphics(){
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1224, 1224, TextureOptions.BILINEAR);
     	menu_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu_background.png");
-    	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png");
-    	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png");
-    	       
+    	jogar_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "bt_jogar.png");
+    	loja_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "bt_loja.png");
+    	rank_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "bt_rank.png");
+    	
     	try{
     		this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
     	    this.menuTextureAtlas.load();
