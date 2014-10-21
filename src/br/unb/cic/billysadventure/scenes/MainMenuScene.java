@@ -64,7 +64,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public void createScene() {
 		createBackground();
 	    createMenuChildScene();
-	    //ResourcesManager.getInstance().playMenuAudio();
+	    ResourcesManager.getInstance().playMenuAudio();
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class RankScene extends BaseScene{
 
 	@Override
 	public void onBackKeyPressed() {
-		SceneManager.getInstance().loadMenuScene(engine);
+		SceneManager.getInstance().reloadMenuScene(engine);
 	}
 
 	@Override
