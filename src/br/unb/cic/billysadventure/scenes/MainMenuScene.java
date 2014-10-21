@@ -18,30 +18,28 @@ import org.andengine.engine.camera.Camera;
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener{
 	
 	private MenuScene menuChildScene;
-	private final int MENU_JOGAR = 0;
-	private final int MENU_LOJA = 1;
-	private final int MENU_RANK = 2;
-	
-	final String TAG = "COORDENADAS";
+	private final int MENU_PLAY = 0;
+	private final int MENU_OPTIONS = 1;
+	private final int MENU_STORE = 2;
 	
 	private void createMenuChildScene(){
 	    menuChildScene = new MenuScene(camera);
 	    menuChildScene.setPosition(0, 0);
 	    
-	    final IMenuItem jogarMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_JOGAR, resourcesManager.jogar_region, vbom), 0.6f, 0.4f);
-	    final IMenuItem lojaMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_LOJA, resourcesManager.loja_region, vbom), 0.6f, 0.4f);
-	    final IMenuItem rankMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RANK, resourcesManager.rank_region, vbom), 0.6f, 0.4f);
+	    final IMenuItem playMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_PLAY, resourcesManager.play_region, vbom), 1.2f, 1);
+	    final IMenuItem optionsMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_OPTIONS, resourcesManager.options_region, vbom), 1.2f, 1);
+	    final IMenuItem storeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_STORE, resourcesManager.store_region, vbom), 1.2f, 1);
 	    
-	    menuChildScene.addMenuItem(jogarMenuItem);
-	    menuChildScene.addMenuItem(lojaMenuItem);
-	    menuChildScene.addMenuItem(rankMenuItem);
+	    menuChildScene.addMenuItem(playMenuItem);
+	    menuChildScene.addMenuItem(optionsMenuItem);
+	    menuChildScene.addMenuItem(storeMenuItem);
 	    
 	    menuChildScene.buildAnimations();
 	    menuChildScene.setBackgroundEnabled(false);
 	    
-	    jogarMenuItem.setPosition(jogarMenuItem.getX() - 250, jogarMenuItem.getY() - 470);
-	    lojaMenuItem.setPosition(lojaMenuItem.getX(), lojaMenuItem.getY() - 70);
-	    rankMenuItem.setPosition(rankMenuItem.getX() + 250, rankMenuItem.getY() + 280);
+	    playMenuItem.setPosition(playMenuItem.getX(), playMenuItem.getY() - 30 );
+	    optionsMenuItem.setPosition(optionsMenuItem.getX(), optionsMenuItem.getY() - 50);
+	    storeMenuItem.setPosition(storeMenuItem.getX(), storeMenuItem.getY() - 50);
 	    
 	    menuChildScene.setOnMenuItemClickListener(this);
 	    
@@ -66,7 +64,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public void createScene() {
 		createBackground();
 	    createMenuChildScene();
-//	    ResourcesManager.getInstance().playMenuAudio();
+	    //ResourcesManager.getInstance().playMenuAudio();
 	}
 
 	@Override
@@ -89,13 +87,15 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY){
 	        switch(pMenuItem.getID())
 	        {
-	        case MENU_JOGAR:
+	        case MENU_PLAY:
 	        	SceneManager.getInstance().loadGameScene(engine);
 	        	ResourcesManager.getInstance().stopMenuAudio();
 	            return true;
-	        case MENU_LOJA:
+	        case MENU_OPTIONS:
 	            return true;
-	        case MENU_RANK:
+	        case MENU_STORE:
+	        	SceneManager.getInstance().loadStoreScene(engine);
+	        	ResourcesManager.getInstance().stopMenuAudio();
 	        	return true;
 	        default:
 	            return false;

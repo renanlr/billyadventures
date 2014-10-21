@@ -24,6 +24,7 @@ import org.andengine.util.level.simple.SimpleLevelEntityLoaderData;
 import org.andengine.util.level.simple.SimpleLevelLoader;
 import org.xml.sax.Attributes;
 
+import android.R.color;
 import br.unb.cic.billysadventure.system.BaseScene;
 import br.unb.cic.billysadventure.system.Player;
 import br.unb.cic.billysadventure.system.SceneManager;
@@ -105,7 +106,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	}
 	
 	private void createBackground(){
-	    setBackground(new Background(Color.BLUE));
+	    setBackground(new Background(new Color(0, 0, 1, 1)));
 	}
 	
 	private void createPhysics(){

@@ -34,11 +34,13 @@ public class ResourcesManager {
     public ITextureRegion splash_region;
     private BitmapTextureAtlas splashTextureAtlas;
     public ITextureRegion menu_background_region;
-    public ITextureRegion jogar_region;
-    public ITextureRegion loja_region;
-    public ITextureRegion rank_region;
+    public ITextureRegion store_background_region;
+    public ITextureRegion play_region;
+    public ITextureRegion options_region;
+    public ITextureRegion store_region;
     private BuildableBitmapTextureAtlas menuTextureAtlas;
-	private Music music;
+    private BuildableBitmapTextureAtlas storeTextureAtlas;
+    private Music music;
 	public IFont font;
 	public BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion platform1_region;
@@ -64,6 +66,11 @@ public class ResourcesManager {
         menuTextureAtlas.load();
     }
     
+    public void loadStoreTextures()
+    {
+        storeTextureAtlas.load();
+    }
+    
     public void loadGameResources()
     {
         loadGameGraphics();
@@ -73,15 +80,28 @@ public class ResourcesManager {
     
     private void loadMenuGraphics(){
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1224, 1224, TextureOptions.BILINEAR);
+    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
     	menu_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu_background.png");
-    	jogar_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "bt_jogar.png");
-    	loja_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "bt_loja.png");
-    	rank_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "bt_rank.png");
-    	
+    	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png");
+    	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png");
+    	store_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "store.png");
+    	       
     	try{
     		this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
     	    this.menuTextureAtlas.load();
+    	}catch (final TextureAtlasBuilderException e){
+    	        Debug.e(e);
+    	}
+    }
+    
+    private void loadStoreGraphics(){
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/store/");
+    	storeTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	store_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(storeTextureAtlas, activity, "store_background.png");
+    	       
+    	try{
+    		this.storeTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+    	    this.storeTextureAtlas.load();
     	}catch (final TextureAtlasBuilderException e){
     	        Debug.e(e);
     	}
@@ -177,5 +197,10 @@ public class ResourcesManager {
     {
         // TODO (Since we did not create any textures for game scene yet)
     }
+
+	public void loadStoreResources() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

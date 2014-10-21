@@ -9,6 +9,7 @@ import br.unb.cic.billysadventure.scenes.GameScene;
 import br.unb.cic.billysadventure.scenes.LoadingScene;
 import br.unb.cic.billysadventure.scenes.MainMenuScene;
 import br.unb.cic.billysadventure.scenes.SplashScene;
+import br.unb.cic.billysadventure.scenes.StoreScene;
 
 public class SceneManager
 {
@@ -20,6 +21,7 @@ public class SceneManager
     private BaseScene menuScene;
     private BaseScene gameScene;
     private BaseScene loadingScene;
+    private BaseScene storeScene;
     
     //---------------------------------------------
     // VARIABLES
@@ -39,6 +41,7 @@ public class SceneManager
         SCENE_MENU,
         SCENE_GAME,
         SCENE_LOADING,
+        SCENE_STORE
     }
     
     //---------------------------------------------
@@ -68,6 +71,9 @@ public class SceneManager
             case SCENE_LOADING:
                 setScene(loadingScene);
                 break;
+            case SCENE_STORE:
+            	setScene(storeScene);
+            	break;
             default:
                 break;
         }
@@ -139,6 +145,29 @@ public class SceneManager
                 mEngine.unregisterUpdateHandler(pTimerHandler);
                 ResourcesManager.getInstance().loadMenuTextures();
                 setScene(menuScene);
+            }
+        }));
+    }
+    
+    public void createStoreScene(){
+	    ResourcesManager.getInstance().loadStoreResources();
+	    storeScene = new StoreScene();
+	    loadingScene = new LoadingScene();
+	    SceneManager.getInstance().setScene(menuScene);
+	    disposeSplashScene();
+	}
+    
+    public void loadStoreScene(final Engine mEngine){
+        setScene(loadingScene);
+        //storeScene.disposeScene();
+        ResourcesManager.getInstance().unloadMenuTextures();
+        mEngine.registerUpdateHandler(new TimerHandler(0.1f, new ITimerCallback() 
+        {
+            public void onTimePassed(final TimerHandler pTimerHandler) 
+            {
+                mEngine.unregisterUpdateHandler(pTimerHandler);
+                ResourcesManager.getInstance().loadStoreTextures();
+                setScene(storeScene);
             }
         }));
     }
