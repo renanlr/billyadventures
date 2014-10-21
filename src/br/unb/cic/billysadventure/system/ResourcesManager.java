@@ -71,6 +71,11 @@ public class ResourcesManager {
         storeTextureAtlas.load();
     }
     
+    public void unloadStoreTextures()
+    {
+        storeTextureAtlas.unload();
+    }
+    
     public void loadGameResources()
     {
         loadGameGraphics();
@@ -199,8 +204,8 @@ public class ResourcesManager {
     }
 
 	public void loadStoreResources() {
-		// TODO Auto-generated method stub
-		
+		loadStoreGraphics();
+        //loadMenuFonts();
 	}
     
 }

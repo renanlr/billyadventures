@@ -150,11 +150,10 @@ public class SceneManager
     }
     
     public void createStoreScene(){
-	    ResourcesManager.getInstance().loadStoreResources();
+    	ResourcesManager.getInstance().loadStoreResources();
 	    storeScene = new StoreScene();
 	    loadingScene = new LoadingScene();
-	    SceneManager.getInstance().setScene(menuScene);
-	    disposeSplashScene();
+	    SceneManager.getInstance().setScene(storeScene);
 	}
     
     public void loadStoreScene(final Engine mEngine){

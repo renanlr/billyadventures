@@ -9,6 +9,7 @@ import org.andengine.opengl.util.GLState;
 
 import br.unb.cic.billysadventure.system.BaseScene;
 import br.unb.cic.billysadventure.system.ResourcesManager;
+import br.unb.cic.billysadventure.system.SceneManager;
 import br.unb.cic.billysadventure.system.SceneManager.SceneType;
 
 
@@ -45,14 +46,12 @@ public class StoreScene extends BaseScene implements IOnMenuItemClickListener{
 
 	@Override
 	public void onBackKeyPressed() {
-		// TODO Auto-generated method stub
-		
+		SceneManager.getInstance().loadMenuScene(engine);
 	}
 
 	@Override
 	public SceneType getSceneType() {
-		// TODO Auto-generated method stub
-		return null;
+		return SceneType.SCENE_STORE;
 	}
 
 	@Override

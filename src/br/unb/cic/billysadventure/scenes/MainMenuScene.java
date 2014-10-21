@@ -94,6 +94,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        case MENU_OPTIONS:
 	            return true;
 	        case MENU_STORE:
+	        	SceneManager.getInstance().createStoreScene();
 	        	SceneManager.getInstance().loadStoreScene(engine);
 	        	ResourcesManager.getInstance().stopMenuAudio();
 	        	return true;
