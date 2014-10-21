@@ -8,6 +8,7 @@ import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 import br.unb.cic.billysadventure.scenes.GameScene;
 import br.unb.cic.billysadventure.scenes.LoadingScene;
 import br.unb.cic.billysadventure.scenes.MainMenuScene;
+import br.unb.cic.billysadventure.scenes.RankScene;
 import br.unb.cic.billysadventure.scenes.SplashScene;
 import br.unb.cic.billysadventure.scenes.StoreScene;
 
@@ -22,6 +23,7 @@ public class SceneManager
     private BaseScene gameScene;
     private BaseScene loadingScene;
     private BaseScene storeScene;
+    private BaseScene rankScene;
     
     //---------------------------------------------
     // VARIABLES
@@ -41,7 +43,8 @@ public class SceneManager
         SCENE_MENU,
         SCENE_GAME,
         SCENE_LOADING,
-        SCENE_STORE
+        SCENE_STORE,
+        SCENE_RANK
     }
     
     //---------------------------------------------
@@ -73,6 +76,9 @@ public class SceneManager
                 break;
             case SCENE_STORE:
             	setScene(storeScene);
+            	break;
+            case SCENE_RANK:
+            	setScene(rankScene);
             	break;
             default:
                 break;
@@ -145,6 +151,28 @@ public class SceneManager
                 mEngine.unregisterUpdateHandler(pTimerHandler);
                 ResourcesManager.getInstance().loadMenuTextures();
                 setScene(menuScene);
+            }
+        }));
+    }
+    
+    public void createRankScene(){
+        ResourcesManager.getInstance().loadRankResources();
+        loadingScene = new LoadingScene();
+    	rankScene = new RankScene();
+        SceneManager.getInstance().setScene(rankScene);
+    }
+    
+    public void loadRankScene(final Engine mEngine){
+    	setScene(loadingScene);
+    	menuScene.disposeScene();
+    	ResourcesManager.getInstance().unloadMenuTextures();
+    	mEngine.registerUpdateHandler(new TimerHandler(0.1f, new ITimerCallback() 
+        {
+            public void onTimePassed(final TimerHandler pTimerHandler) 
+            {
+                mEngine.unregisterUpdateHandler(pTimerHandler);
+                ResourcesManager.getInstance().loadRankTextures();
+                setScene(rankScene);
             }
         }));
     }
