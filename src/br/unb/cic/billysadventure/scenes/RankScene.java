@@ -12,34 +12,33 @@ import br.unb.cic.billysadventure.system.SceneManager.SceneType;
 public class RankScene extends BaseScene{
 
 	@Override
-	public void createScene() {
+	public void createScene(){
 		createBackground();
 	}
 
 	@Override
-	public void onBackKeyPressed() {
+	public void onBackKeyPressed(){
 		SceneManager.getInstance().reloadMenuScene(engine);
 	}
 
 	@Override
-	public SceneType getSceneType() {
+	public SceneType getSceneType(){
 		return SceneType.SCENE_RANK;
 	}
 
 	@Override
-	public void disposeScene() {
+	public void disposeScene(){
 		// TODO Auto-generated method stub
-		
 	}
+
 	private void createBackground(){
-		 attachChild(new Sprite(400, 240, resourcesManager.rank_background_region, vbom)
-		 {
-		        @Override
-		        protected void preDraw(GLState pGLState, Camera pCamera) 
-		        {
-		            super.preDraw(pGLState, pCamera);
-		            pGLState.enableDither();
-		        }
-		    });
+		attachChild(new Sprite(400, 240, resourcesManager.rank_background_region, vbom){
+
+			@Override
+			protected void preDraw(GLState pGLState, Camera pCamera){
+				super.preDraw(pGLState, pCamera);
+				pGLState.enableDither();
+			}
+		});
 	}
 }

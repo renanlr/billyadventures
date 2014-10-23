@@ -12,16 +12,14 @@ public class SplashScene extends BaseScene{
 	private Sprite splash;
 
 	@Override
-	public void createScene() {
+	public void createScene(){
 		splash = new Sprite(0, 0, resourcesManager.splash_region, vbom){
 			
 		    @Override
-		    protected void preDraw(GLState pGLState, Camera pCamera) 
-		    {
+		    protected void preDraw(GLState pGLState, Camera pCamera){
 		       super.preDraw(pGLState, pCamera);
 		       pGLState.enableDither();
-		    }
-		    
+		    }   
 		};
 		        
 		splash.setScale(1.5f);
@@ -30,18 +28,17 @@ public class SplashScene extends BaseScene{
 	}
 
 	@Override
-	public void onBackKeyPressed() {
+	public void onBackKeyPressed(){
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public SceneType getSceneType() {
+	public SceneType getSceneType(){
 		return SceneType.SCENE_SPLASH;
 	}
 
 	@Override
-	public void disposeScene() {
+	public void disposeScene(){
 	    splash.detachSelf();
 	    splash.dispose();
 	    this.detachSelf();

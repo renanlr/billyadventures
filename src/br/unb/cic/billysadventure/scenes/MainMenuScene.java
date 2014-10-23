@@ -16,94 +16,93 @@ import br.unb.cic.billysadventure.system.SceneManager.SceneType;
 import org.andengine.engine.camera.Camera;
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener{
-	
+
 	private MenuScene menuChildScene;
 	private final int MENU_JOGAR = 0;
 	private final int MENU_STORE = 1;
 	private final int MENU_RANK = 2;
-	
+
 	private void createMenuChildScene(){
-	    menuChildScene = new MenuScene(camera);
-	    menuChildScene.setPosition(0, 0);
-	    
-	    final IMenuItem jogarMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_JOGAR, resourcesManager.jogar_region, vbom), 0.6f, 0.4f);
-	    final IMenuItem storeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_STORE, resourcesManager.loja_region, vbom), 0.6f, 0.4f);
-	    final IMenuItem rankMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RANK, resourcesManager.rank_region, vbom), 0.6f, 0.4f);
-	    
-	    menuChildScene.addMenuItem(jogarMenuItem);
-	    menuChildScene.addMenuItem(storeMenuItem);
-	    menuChildScene.addMenuItem(rankMenuItem);
-	    
-	    menuChildScene.buildAnimations();
-	    menuChildScene.setBackgroundEnabled(false);
-	    
-	    jogarMenuItem.setPosition(jogarMenuItem.getX() - 250, jogarMenuItem.getY() - 470);
-	    storeMenuItem.setPosition(storeMenuItem.getX(), storeMenuItem.getY() - 70);
-	    rankMenuItem.setPosition(rankMenuItem.getX() + 250, rankMenuItem.getY() + 280);
-	    
-	    menuChildScene.setOnMenuItemClickListener(this);
-	    
-	    setChildScene(menuChildScene);
+		menuChildScene = new MenuScene(camera);
+		menuChildScene.setPosition(0, 0);
+
+		final IMenuItem jogarMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_JOGAR, resourcesManager.jogar_region, vbom), 0.6f, 0.4f);
+		final IMenuItem storeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_STORE, resourcesManager.loja_region, vbom), 0.6f, 0.4f);
+		final IMenuItem rankMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RANK, resourcesManager.rank_region, vbom), 0.6f, 0.4f);
+
+		menuChildScene.addMenuItem(jogarMenuItem);
+		menuChildScene.addMenuItem(storeMenuItem);
+		menuChildScene.addMenuItem(rankMenuItem);
+
+		menuChildScene.buildAnimations();
+		menuChildScene.setBackgroundEnabled(false);
+
+		jogarMenuItem.setPosition(jogarMenuItem.getX() - 250, jogarMenuItem.getY() - 470);
+		storeMenuItem.setPosition(storeMenuItem.getX(), storeMenuItem.getY() - 70);
+		rankMenuItem.setPosition(rankMenuItem.getX() + 250, rankMenuItem.getY() + 280);
+
+		menuChildScene.setOnMenuItemClickListener(this);
+
+		setChildScene(menuChildScene);
 	}
-	
-	
-	private void createBackground()
-	{
-	    attachChild(new Sprite(400, 240, resourcesManager.menu_background_region, vbom)
-	    {
-	        @Override
-	        protected void preDraw(GLState pGLState, Camera pCamera) 
-	        {
-	            super.preDraw(pGLState, pCamera);
-	            pGLState.enableDither();
-	        }
-	    });
+
+
+	private void createBackground(){
+		attachChild(new Sprite(400, 240, resourcesManager.menu_background_region, vbom){
+
+			@Override
+			protected void preDraw(GLState pGLState, Camera pCamera){
+				super.preDraw(pGLState, pCamera);
+				pGLState.enableDither();
+			}
+		});
 	}
 
 	@Override
-	public void createScene() {
+	public void createScene(){
 		createBackground();
-	    createMenuChildScene();
-	    ResourcesManager.getInstance().playMenuAudio();
+		createMenuChildScene();
+		//ResourcesManager.getInstance().playMenuAudio();
 	}
 
 	@Override
-	public void onBackKeyPressed() {
+	public void onBackKeyPressed(){
 		ResourcesManager.getInstance().stopMenuAudio();
 		System.exit(0);
 	}
 
 	@Override
-	public SceneType getSceneType() {
+	public SceneType getSceneType(){
 		return SceneType.SCENE_MENU;
 	}
 
 	@Override
-	public void disposeScene() {
+	public void disposeScene(){
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY){
-	        switch(pMenuItem.getID())
-	        {
-	        case MENU_JOGAR:
-	        	SceneManager.getInstance().loadGameScene(engine);
-	        	ResourcesManager.getInstance().stopMenuAudio();
-	            return true;
-	        case MENU_STORE:
-	        	SceneManager.getInstance().createStoreScene();
-	        	SceneManager.getInstance().loadStoreScene(engine);
-	        	//ResourcesManager.getInstance().stopMenuAudio();
-	            return true;
-	        case MENU_RANK:
-	        	SceneManager.getInstance().createRankScene();
-	        	SceneManager.getInstance().loadRankScene(engine);
-	        	//ResourcesManager.getInstance().stopMenuAudio();
-	        	return true;
-	        default:
-	            return false;
-	    }
+
+	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, 
+			float pMenuItemLocalX, float pMenuItemLocalY){
+
+		switch(pMenuItem.getID()){
+		case MENU_JOGAR:
+			SceneManager.getInstance().loadGameScene(engine);
+			ResourcesManager.getInstance().stopMenuAudio();
+			return true;
+		case MENU_STORE:
+			SceneManager.getInstance().createStoreScene();
+			SceneManager.getInstance().loadStoreScene(engine);
+			ResourcesManager.getInstance().stopMenuAudio();
+			return true;
+		case MENU_RANK:
+			SceneManager.getInstance().createRankScene();
+			SceneManager.getInstance().loadRankScene(engine);
+			ResourcesManager.getInstance().stopMenuAudio();
+			return true;
+		default:
+			return false;
+		}
 	}
 
 }

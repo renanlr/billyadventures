@@ -23,13 +23,11 @@ public class StoreScene extends BaseScene implements IOnMenuItemClickListener{
 		
 	}
 	
-	private void createBackground()
-	{
-	    attachChild(new Sprite(400, 240, resourcesManager.store_background_region, vbom)
-	    {
+	private void createBackground(){
+	    attachChild(new Sprite(400, 240, resourcesManager.store_background_region, vbom){
+	    	
 	        @Override
-	        protected void preDraw(GLState pGLState, Camera pCamera) 
-	        {
+	        protected void preDraw(GLState pGLState, Camera pCamera){
 	            super.preDraw(pGLState, pCamera);
 	            pGLState.enableDither();
 	        }
@@ -37,7 +35,7 @@ public class StoreScene extends BaseScene implements IOnMenuItemClickListener{
 	}
 	
 	@Override
-	public void createScene() {
+	public void createScene(){
 		createBackground();
 	    createStoreChildScene();
 	    ResourcesManager.getInstance().playStoreAudio();
@@ -46,23 +44,23 @@ public class StoreScene extends BaseScene implements IOnMenuItemClickListener{
 
 	@Override
 	public void onBackKeyPressed(){
+		ResourcesManager.getInstance().stopStoreAudio();
 		SceneManager.getInstance().reloadMenuScene(engine);
 	}
 
 	@Override
-	public SceneType getSceneType() {
+	public SceneType getSceneType(){
 		return SceneType.SCENE_STORE;
 	}
 
 	@Override
-	public void disposeScene() {
+	public void disposeScene(){
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
-			float pMenuItemLocalX, float pMenuItemLocalY) {
+			float pMenuItemLocalX, float pMenuItemLocalY){
 		// TODO Auto-generated method stub
 		return false;
 	}

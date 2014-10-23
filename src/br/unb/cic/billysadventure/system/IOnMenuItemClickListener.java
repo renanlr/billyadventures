@@ -9,9 +9,10 @@ public class IOnMenuItemClickListener {
 	private final int MENU_OPTIONS = 1;
 	private final int MENU_STORE = 2;
 	
-	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY){
-	        switch(pMenuItem.getID())
-	        {
+	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, 
+			float pMenuItemLocalX, float pMenuItemLocalY){
+		
+	        switch(pMenuItem.getID()){
 	        case MENU_PLAY:
 	            return true;
 	        case MENU_OPTIONS:

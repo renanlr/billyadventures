@@ -17,74 +17,69 @@ import br.unb.cic.billysadventure.system.SceneManager;
 import android.view.KeyEvent;
 
 public class GameActivity extends BaseGameActivity{
-	
+
 	private BoundCamera camera;
+	@SuppressWarnings("unused")
 	private ResourcesManager resourcesManager;
-	
+
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions){
-	    return new LimitedFPSEngine(pEngineOptions, 60);
+		return new LimitedFPSEngine(pEngineOptions, 60);
 	}
 
 	@Override
 	public EngineOptions onCreateEngineOptions(){
-	    camera = new BoundCamera(0, 0, 800, 480);
-	    EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(800, 480), this.camera);
-	    engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
-	    engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
-	    return engineOptions;
+		camera = new BoundCamera(0, 0, 800, 480);
+		EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(800, 480), this.camera);
+		engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
+		engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
+		return engineOptions;
 	}
 
 	@Override
-	public void onCreateResources(
-			OnCreateResourcesCallback pOnCreateResourcesCallback) {
-		
+	public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback){
+
 		ResourcesManager.prepareManager(mEngine, this, camera, getVertexBufferObjectManager());
-	    resourcesManager = ResourcesManager.getInstance();
-	    
-	    pOnCreateResourcesCallback.onCreateResourcesFinished();
-		
+		resourcesManager = ResourcesManager.getInstance();
+
+		pOnCreateResourcesCallback.onCreateResourcesFinished();	
 	}
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) {
-		SceneManager.getInstance().createSplashScene(pOnCreateSceneCallback);
-		
+		SceneManager.getInstance().createSplashScene(pOnCreateSceneCallback);	
 	}
 
 	@Override
-	public void onPopulateScene(Scene pScene,
-			OnPopulateSceneCallback pOnPopulateSceneCallback) {
-		
-	    mEngine.registerUpdateHandler(new TimerHandler(2f, new ITimerCallback() 
-	    {
-	            public void onTimePassed(final TimerHandler pTimerHandler) 
-	            {
-	                mEngine.unregisterUpdateHandler(pTimerHandler);
-	                SceneManager.getInstance().createMenuScene();
-	            }
-	    }));
-	    pOnPopulateSceneCallback.onPopulateSceneFinished();
-		
+	public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback){
+
+		mEngine.registerUpdateHandler(new TimerHandler(2f, new ITimerCallback(){
+
+			public void onTimePassed(final TimerHandler pTimerHandler){
+				mEngine.unregisterUpdateHandler(pTimerHandler);
+				SceneManager.getInstance().createMenuScene();
+			}
+		}));
+
+		pOnPopulateSceneCallback.onPopulateSceneFinished();	
 	}
-	
+
 	@Override
 	public void onPauseGame(){
-		ResourcesManager.getInstance().pauseMenuAudio();
 	}
-	
+
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
-	        System.exit(0);	
+		System.exit(0);	
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){  
-	    if (keyCode == KeyEvent.KEYCODE_BACK){
-	        SceneManager.getInstance().getCurrentScene().onBackKeyPressed();
-	    }
-	    return false; 
+		if (keyCode == KeyEvent.KEYCODE_BACK){
+			SceneManager.getInstance().getCurrentScene().onBackKeyPressed();
+		}
+		return false; 
 	}
 
 }

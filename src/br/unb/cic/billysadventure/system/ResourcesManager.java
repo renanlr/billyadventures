@@ -27,23 +27,35 @@ import br.unb.cic.billysadventure.activity.GameActivity;
 public class ResourcesManager {
 	
     private static final ResourcesManager INSTANCE = new ResourcesManager();
+    
+    /* <-- Atributos da AndEngine --> */
     public Engine engine;
     public GameActivity activity;
     public BoundCamera camera;
     public VertexBufferObjectManager vbom;
+    
+    /* <-- Atributos da Splash Scene --> */
     public ITextureRegion splash_region;
     private BitmapTextureAtlas splashTextureAtlas;
+    
+    /* <-- Atributos da Menu Scene --> */
+    private BuildableBitmapTextureAtlas menuTextureAtlas;
     public ITextureRegion menu_background_region;
-    public ITextureRegion store_background_region;
     public ITextureRegion jogar_region;
     public ITextureRegion loja_region;
     public ITextureRegion rank_region;
-    public ITextureRegion rank_background_region;
-    private BuildableBitmapTextureAtlas menuTextureAtlas;
-    private BuildableBitmapTextureAtlas storeTextureAtlas;
-    private BuildableBitmapTextureAtlas rankTextureAtlas;
     private Music menu_music;
+    
+    /* <-- Atributos da Store Scene --> */
+    private BuildableBitmapTextureAtlas storeTextureAtlas;
+    public ITextureRegion store_background_region;
     private Music store_music;
+    
+    /* <-- Atributos da Rank Scene --> */
+    private BuildableBitmapTextureAtlas rankTextureAtlas;
+    public ITextureRegion rank_background_region;
+
+    /* <-- Atributos da Game Scene --> */
 	public IFont font;
 	public BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion platform1_region;
@@ -52,40 +64,75 @@ public class ResourcesManager {
 	public ITextureRegion coin_region;
 	public ITiledTextureRegion player_region;
 	
+	/* <-- Métodos Responsáveis por carregar e descarregar texturas --> */
+	
+	public void unloadMenuTextures(){
+        menuTextureAtlas.unload();
+    }
+        
+    public void loadMenuTextures(){
+        menuTextureAtlas.load();
+    }
     
-    public void loadMenuResources()
-    {
+    
+    public void loadStoreTextures(){
+        storeTextureAtlas.load();
+    }
+    
+    public void unloadStoreTextures(){
+        storeTextureAtlas.unload();
+    }
+    
+    
+    public void unloadRankTextures(){
+        rankTextureAtlas.unload();
+    }
+        
+    public void loadRankTextures(){
+        rankTextureAtlas.load();
+    }
+    
+    public void unloadGameTextures(){
+        // TODO (Since we did not create any textures for game scene yet)
+    }
+     
+    public void loadSplashScreen(){
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+    	splashTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+    	splash_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "splash.png", 0, 0);
+    	splashTextureAtlas.load();
+    }
+    
+    public void unloadSplashScreen(){
+    	splashTextureAtlas.unload();
+    	splash_region = null;
+    }
+    
+    /* <-- Métodos Responsáveis por carregar recursos --> */
+    
+    public void loadMenuResources(){
         loadMenuGraphics();
         loadMenuAudio();
         loadMenuFonts();
     }
     
-    public void unloadMenuTextures()
-    {
-        menuTextureAtlas.unload();
-    }
-        
-    public void loadMenuTextures()
-    {
-        menuTextureAtlas.load();
-    }
-    
-    public void loadStoreTextures()
-    {
-        storeTextureAtlas.load();
-    }
-    
-    public void unloadStoreTextures()
-    {
-        storeTextureAtlas.unload();
-    }
-    
-    public void loadGameResources()
-    {
+    public void loadGameResources(){
         loadGameGraphics();
         loadGameFonts();
         loadGameAudio();
     }
+    
+	public void loadStoreResources() {
+		loadStoreGraphics();
+        //loadMenuFonts();
+	}
+	
+    
+    public void loadRankResources(){
+    	loadRankGraphics();
+    }
+    
+    /* <-- Métodos Responsáveis por carregar a parte gráfica das cenas --> */
     
     private void loadMenuGraphics(){
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
@@ -116,6 +163,38 @@ public class ResourcesManager {
     	}
     }
     
+    private void loadGameGraphics(){
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
+        gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+        
+        platform1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform1.png");
+        platform2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform2.png");
+        platform3_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform3.png");
+        coin_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "coin.png");
+        player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "player.png", 3, 1);
+       
+        try{
+            this.gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+            this.gameTextureAtlas.load();
+        }catch (final TextureAtlasBuilderException e){
+            Debug.e(e);
+        }
+    }
+    
+    private void loadRankGraphics(){
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/rank/");
+    	rankTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	rank_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(rankTextureAtlas, activity, "rank_background.jpg");
+    	        
+    	try {
+    	    this.rankTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+    	    this.rankTextureAtlas.load();
+    	}catch (final TextureAtlasBuilderException e){
+    		Debug.e(e);
+    	}
+    }
+
+    /* <-- Métodos Responsáveis pela parte do Aúdio --> */
     private void loadMenuAudio(){
     	MusicFactory.setAssetBasePath("mfx/");
     	try {
@@ -123,7 +202,7 @@ public class ResourcesManager {
     		store_music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "store_music.mp3");
     		getInstance().menu_music.setLooping(true);
     		getInstance().store_music.setLooping(true);
-    	} catch (final IOException e) {
+    	}catch (final IOException e){
     		Debug.e(e);
     	}
     }
@@ -143,32 +222,13 @@ public class ResourcesManager {
     public void stopStoreAudio(){
     	store_music.stop();
     }
-
-    private void loadGameGraphics()
-    {
-        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
-        gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-        
-        platform1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform1.png");
-        platform2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform2.png");
-        platform3_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform3.png");
-        coin_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "coin.png");
-        player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "player.png", 3, 1);
-       
-        try 
-        {
-            this.gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-            this.gameTextureAtlas.load();
-        } 
-        catch (final TextureAtlasBuilderException e)
-        {
-            Debug.e(e);
-        }
+    
+    private void loadGameAudio(){       
     }
     
-    private void loadGameFonts()
-    {
-        
+    /* <-- Métodos Responsáveis pelo funcionamento da AndEngine e carregamento das Fontes --> */
+    
+    private void loadGameFonts(){     
     }
     
 	private void loadMenuFonts(){
@@ -176,23 +236,6 @@ public class ResourcesManager {
 	    final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 	    font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "arial.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
 	    font.load();
-    }
-    
-    private void loadGameAudio()
-    {
-        
-    }
-    
-    public void loadSplashScreen(){
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-    	splashTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-    	splash_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "splash.png", 0, 0);
-    	splashTextureAtlas.load();
-    }
-    
-    public void unloadSplashScreen(){
-    	splashTextureAtlas.unload();
-    	splash_region = null;
     }
     
     public static void prepareManager(Engine engine, GameActivity activity, BoundCamera camera, VertexBufferObjectManager vbom)
@@ -203,47 +246,8 @@ public class ResourcesManager {
         getInstance().vbom = vbom;
     }
     
-    public static ResourcesManager getInstance()
-    {
+    public static ResourcesManager getInstance(){
         return INSTANCE;
-    }
-    
-    public void unloadGameTextures()
-    {
-        // TODO (Since we did not create any textures for game scene yet)
-    }
-
-	public void loadStoreResources() {
-		loadStoreGraphics();
-        //loadMenuFonts();
-	}
-	
-    private void loadRankGraphics(){
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/rank/");
-    	rankTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-    	rank_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(rankTextureAtlas, activity, "rank_background.jpg");
-    	        
-    	try 
-    	{
-    	    this.rankTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    this.rankTextureAtlas.load();
-    	} 
-    	catch (final TextureAtlasBuilderException e)
-    	{
-    	        Debug.e(e);
-    	}
-    }
-    
-    public void loadRankResources(){
-    	loadRankGraphics();
-    }
-    
-    public void unloadRankTextures(){
-        rankTextureAtlas.unload();
-    }
-        
-    public void loadRankTextures(){
-        rankTextureAtlas.load();
     }
     
 }
