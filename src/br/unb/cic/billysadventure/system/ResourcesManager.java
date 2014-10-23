@@ -42,7 +42,8 @@ public class ResourcesManager {
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BuildableBitmapTextureAtlas storeTextureAtlas;
     private BuildableBitmapTextureAtlas rankTextureAtlas;
-    private Music music;
+    private Music menu_music;
+    private Music store_music;
 	public IFont font;
 	public BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion platform1_region;
@@ -118,23 +119,29 @@ public class ResourcesManager {
     private void loadMenuAudio(){
     	MusicFactory.setAssetBasePath("mfx/");
     	try {
-    		music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "menu_music.mp3");
-    		getInstance().music.setLooping(true);
+    		menu_music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "menu_music.mp3");
+    		store_music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "store_music.mp3");
+    		getInstance().menu_music.setLooping(true);
+    		getInstance().store_music.setLooping(true);
     	} catch (final IOException e) {
     		Debug.e(e);
     	}
     }
     
     public void playMenuAudio(){
-    	this.music.play();
-    }
-    
-    public void pauseMenuAudio(){
-    	this.music.pause();
+    	menu_music.play();
     }
     
     public void stopMenuAudio(){
-    	this.music.stop();
+    	menu_music.stop();
+    }
+    
+    public void playStoreAudio(){
+    	store_music.play();
+    }
+    
+    public void stopStoreAudio(){
+    	store_music.stop();
     }
 
     private void loadGameGraphics()

@@ -40,12 +40,12 @@ public class StoreScene extends BaseScene implements IOnMenuItemClickListener{
 	public void createScene() {
 		createBackground();
 	    createStoreChildScene();
-	    ResourcesManager.getInstance().playMenuAudio();
+	    ResourcesManager.getInstance().playStoreAudio();
 		
 	}
 
 	@Override
-	public void onBackKeyPressed() {
+	public void onBackKeyPressed(){
 		SceneManager.getInstance().reloadMenuScene(engine);
 	}
 
