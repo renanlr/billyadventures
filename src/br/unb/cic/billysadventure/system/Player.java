@@ -7,13 +7,15 @@ import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public abstract class Player extends AnimatedSprite{
 
-	
+	public final String TAG = "DEBUG MODE";
 	private Body body;
 	private boolean canRun = false;
 	private int footContacts = 0;
@@ -37,12 +39,11 @@ public abstract class Player extends AnimatedSprite{
 	        public void onUpdate(float pSecondsElapsed){
 				super.onUpdate(pSecondsElapsed);
 				camera.onUpdate(0.1f);
-				
 				if (getY() <= 0){					
 					onDie();
 				}
 				
-				if (canRun){	
+				if (canRun){
 					body.setLinearVelocity(new Vector2(5, body.getLinearVelocity().y)); 
 				}
 	        }

@@ -1,6 +1,7 @@
 package br.unb.cic.billysadventure.activity;
 
 import org.andengine.engine.camera.BoundCamera;
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.engine.Engine;
@@ -14,12 +15,12 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 import br.unb.cic.billysadventure.system.ResourcesManager;
 import br.unb.cic.billysadventure.system.SceneManager;
+import android.util.Log;
 import android.view.KeyEvent;
 
 public class GameActivity extends BaseGameActivity{
 
 	private BoundCamera camera;
-	@SuppressWarnings("unused")
 	private ResourcesManager resourcesManager;
 
 	@Override
@@ -81,5 +82,4 @@ public class GameActivity extends BaseGameActivity{
 		}
 		return false; 
 	}
-
 }

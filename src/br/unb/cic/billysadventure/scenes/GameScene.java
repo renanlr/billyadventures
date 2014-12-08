@@ -1,13 +1,16 @@
 package br.unb.cic.billysadventure.scenes;
 
 import java.io.IOException;
+
 import org.andengine.engine.camera.hud.HUD;
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.scene.background.ParallaxBackground;
+import org.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
@@ -16,16 +19,18 @@ import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.SAXUtils;
-import org.andengine.util.adt.color.Color;
 import org.andengine.util.level.EntityLoader;
 import org.andengine.util.level.constants.LevelConstants;
 import org.andengine.util.level.simple.SimpleLevelEntityLoaderData;
 import org.andengine.util.level.simple.SimpleLevelLoader;
 import org.xml.sax.Attributes;
+
 import br.unb.cic.billysadventure.system.BaseScene;
 import br.unb.cic.billysadventure.system.Player;
+import br.unb.cic.billysadventure.system.ResourcesManager;
 import br.unb.cic.billysadventure.system.SceneManager;
 import br.unb.cic.billysadventure.system.SceneManager.SceneType;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -36,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class GameScene extends BaseScene implements IOnSceneTouchListener{
+public class GameScene extends BaseScene implements IOnSceneTouchListener, IUpdateHandler{
 
 	/* <-- Atributos Responsáveis pelo Funcionamento do Jogo --> */
 	private HUD gameHUD;
@@ -96,7 +101,18 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 	}
 
 	private void createBackground(){
-		setBackground(new Background(new Color(0, 0, 1, 1)));
+//	    attachChild(new Sprite(400, 240, resourcesManager.game_background_region, vbom){
+//	    	
+//	        @Override
+//	        protected void preDraw(GLState pGLState, Camera pCamera){
+//	            super.preDraw(pGLState, pCamera);
+//	            pGLState.enableDither();
+//	        }
+//	    });
+	    
+	    ParallaxBackground background = new ParallaxBackground(0, 0, 0);
+	    background.attachParallaxEntity(new ParallaxEntity(0, new Sprite(400, 240, resourcesManager.game_background_region, vbom)));
+	    setBackground(background);
 	}
 
 	private void createPhysics(){
@@ -130,7 +146,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 		score += i;
 		scoreText.setText("Score: " + score);
 	}
-
+	
 	@Override
 	public void createScene(){
 		createBackground();
@@ -139,10 +155,12 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 		loadLevel(1);
 		createGameOverText();
 		setOnSceneTouchListener(this);
+		ResourcesManager.getInstance().playLevel1Audio();
 	}
 
 	@Override
 	public void onBackKeyPressed(){
+		ResourcesManager.getInstance().stopLevel1Audio();
 		SceneManager.getInstance().loadMenuScene(engine);
 	}
 
@@ -173,7 +191,8 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener{
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
 
-				camera.setBounds(0, 0, width, height);
+				//TODO: Mudar caso seja necessário uma camera maior.
+				camera.setBounds(0, 0, 4096, height);
 				camera.setBoundsEnabled(true);
 
 				return GameScene.this;

@@ -49,6 +49,7 @@ public class ResourcesManager {
     /* <-- Atributos da Store Scene --> */
     private BuildableBitmapTextureAtlas storeTextureAtlas;
     public ITextureRegion store_background_region;
+    public ITextureRegion coin_store_region;
     private Music store_music;
     
     /* <-- Atributos da Rank Scene --> */
@@ -63,6 +64,8 @@ public class ResourcesManager {
 	public ITextureRegion platform3_region;
 	public ITextureRegion coin_region;
 	public ITiledTextureRegion player_region;
+	public ITextureRegion game_background_region;
+	private Music bg_music_lvl_1;
 	
 	/* <-- Métodos Responsáveis por carregar e descarregar texturas --> */
 	
@@ -154,6 +157,8 @@ public class ResourcesManager {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/store/");
     	storeTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
     	store_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(storeTextureAtlas, activity, "store_background.png");
+    	// TODO: Colocar moeda na store
+    	coin_store_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(storeTextureAtlas, activity, "coin_store.png");
     	       
     	try{
     		this.storeTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -165,14 +170,14 @@ public class ResourcesManager {
     
     private void loadGameGraphics(){
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
-        gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+        gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 1024, TextureOptions.BILINEAR);
         
         platform1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform1.png");
         platform2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform2.png");
         platform3_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform3.png");
         coin_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "coin.png");
         player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "player.png", 3, 1);
-       
+        game_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background_game_lvl_1.png");
         try{
             this.gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
             this.gameTextureAtlas.load();
@@ -200,8 +205,10 @@ public class ResourcesManager {
     	try {
     		menu_music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "menu_music.mp3");
     		store_music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "store_music.mp3");
+    		bg_music_lvl_1 = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity, "backgrond_game_lvl_1.mp3");
     		getInstance().menu_music.setLooping(true);
     		getInstance().store_music.setLooping(true);
+    		getInstance().bg_music_lvl_1.setLooping(true);
     	}catch (final IOException e){
     		Debug.e(e);
     	}
@@ -221,6 +228,14 @@ public class ResourcesManager {
     
     public void stopStoreAudio(){
     	store_music.stop();
+    }
+    
+    public void playLevel1Audio(){
+    	bg_music_lvl_1.play();
+    }
+    
+    public void stopLevel1Audio(){
+    	bg_music_lvl_1.stop();
     }
     
     private void loadGameAudio(){       
