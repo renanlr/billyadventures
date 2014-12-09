@@ -60,8 +60,6 @@ public class ResourcesManager {
 	public IFont font;
 	public BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion platform1_region;
-	public ITextureRegion platform2_region;
-	public ITextureRegion platform3_region;
 	public ITextureRegion coin_region;
 	public ITiledTextureRegion player_region;
 	public ITextureRegion game_background_region;
@@ -173,8 +171,6 @@ public class ResourcesManager {
         gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 1024, TextureOptions.BILINEAR);
         
         platform1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform1.png");
-        platform2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform2.png");
-        platform3_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "platform3.png");
         coin_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "coin.png");
         player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "player.png", 3, 1);
         game_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background_game_lvl_1.png");
@@ -219,7 +215,7 @@ public class ResourcesManager {
     }
     
     public void stopMenuAudio(){
-    	menu_music.stop();
+    	menu_music.pause();
     }
     
     public void playStoreAudio(){
@@ -227,7 +223,7 @@ public class ResourcesManager {
     }
     
     public void stopStoreAudio(){
-    	store_music.stop();
+    	store_music.pause();
     }
     
     public void playLevel1Audio(){
@@ -235,7 +231,7 @@ public class ResourcesManager {
     }
     
     public void stopLevel1Audio(){
-    	bg_music_lvl_1.stop();
+    	bg_music_lvl_1.pause();
     }
     
     private void loadGameAudio(){       

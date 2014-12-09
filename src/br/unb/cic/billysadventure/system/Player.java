@@ -39,7 +39,7 @@ public abstract class Player extends AnimatedSprite{
 	        public void onUpdate(float pSecondsElapsed){
 				super.onUpdate(pSecondsElapsed);
 				camera.onUpdate(0.1f);
-				if (getY() <= 0){					
+				if (getY() < -10){					
 					onDie();
 				}
 				

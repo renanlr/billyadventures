@@ -25,6 +25,7 @@ import org.andengine.util.level.simple.SimpleLevelEntityLoaderData;
 import org.andengine.util.level.simple.SimpleLevelLoader;
 import org.xml.sax.Attributes;
 
+import android.util.Log;
 import br.unb.cic.billysadventure.system.BaseScene;
 import br.unb.cic.billysadventure.system.Player;
 import br.unb.cic.billysadventure.system.ResourcesManager;
@@ -56,8 +57,6 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener, IUpda
 	private static final String TAG_ENTITY_ATTRIBUTE_Y = "y";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE = "type";    
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLATFORM1 = "platform1";
-	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLATFORM2 = "platform2";
-	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLATFORM3 = "platform3";
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_COIN = "coin";
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLAYER = "player";
 
@@ -155,7 +154,6 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener, IUpda
 		loadLevel(1);
 		createGameOverText();
 		setOnSceneTouchListener(this);
-		ResourcesManager.getInstance().playLevel1Audio();
 	}
 
 	@Override
@@ -188,7 +186,7 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener, IUpda
 			public IEntity onLoadEntity(final String pEntityName, final IEntity pParent, 
 					final Attributes pAttributes, final SimpleLevelEntityLoaderData pSimpleLevelEntityLoaderData) throws IOException {
 
-				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
+//				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
 
 				//TODO: Mudar caso seja necessário uma camera maior.
@@ -198,6 +196,10 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener, IUpda
 				return GameScene.this;
 			}
 		});
+		
+		if(levelID==1){
+			ResourcesManager.getInstance().playLevel1Audio();
+		}
 
 		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderData>(TAG_ENTITY){
 
@@ -212,18 +214,6 @@ public class GameScene extends BaseScene implements IOnSceneTouchListener, IUpda
 				if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLATFORM1)){
 					levelObject = new Sprite(x, y, resourcesManager.platform1_region, vbom);
 					PhysicsFactory.createBoxBody(physicsWorld, levelObject, BodyType.StaticBody, FIXTURE_DEF).setUserData("platform1");
-
-				}else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLATFORM2)){
-					levelObject = new Sprite(x, y, resourcesManager.platform2_region, vbom);
-					final Body body = PhysicsFactory.createBoxBody(physicsWorld, levelObject, BodyType.StaticBody, FIXTURE_DEF);
-					body.setUserData("platform2");
-					physicsWorld.registerPhysicsConnector(new PhysicsConnector(levelObject, body, true, false));
-
-				}else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_PLATFORM3)){
-					levelObject = new Sprite(x, y, resourcesManager.platform3_region, vbom);
-					final Body body = PhysicsFactory.createBoxBody(physicsWorld, levelObject, BodyType.StaticBody, FIXTURE_DEF);
-					body.setUserData("platform3");
-					physicsWorld.registerPhysicsConnector(new PhysicsConnector(levelObject, body, true, false));
 
 				}else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_COIN)){
 					levelObject = new Sprite(x, y, resourcesManager.coin_region, vbom){
